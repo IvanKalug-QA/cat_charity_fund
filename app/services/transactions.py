@@ -11,13 +11,13 @@ async def investing(
 ):
     all_projects = await session.execute(
         select(CharityProject).where(
-            CharityProject.fully_invested == False
+            CharityProject.fully_invested.is_(False)
         )
     )
     all_projects = all_projects.scalars().all()
     all_donations = await session.execute(
         select(Donation).where(
-            Donation.fully_invested == False
+            Donation.fully_invested.is_(False)
         )
     )
     all_donations = all_donations.scalars().all()
