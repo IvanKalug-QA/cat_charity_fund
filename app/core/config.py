@@ -5,7 +5,7 @@ from pydantic import BaseSettings, EmailStr
 
 class Settings(BaseSettings):
     app_title: str = 'QRKot'
-    default: str
+    default: str = 'default_value'
     secret: str = 'SECRET'
     first_superuser_email: Optional[EmailStr] = None
     first_superuser_password: Optional[str] = None
