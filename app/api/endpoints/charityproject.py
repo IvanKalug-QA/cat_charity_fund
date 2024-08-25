@@ -7,7 +7,7 @@ from app.schemas.charityproject import (
     CharityProjectDB,
     CharityProjectCreate,
     CharityProjectUpdate)
-from app.crud.charityproject import charityproject_crud
+from app.crud.charityproject import charity_project_crud
 from app.api.validators import (
     check_exists_object,
     check_project_before_remove,
@@ -23,8 +23,8 @@ router = APIRouter()
     response_model=list[CharityProjectDB])
 async def get_all_charityprojects(
         session: AsyncSession = Depends(get_async_session)):
-    charityprojects = await charityproject_crud.get_multi(session)
-    return charityprojects
+    charity_projects = await charity_project_crud.get_multi(session)
+    return charity_projects
 
 
 @router.post(
@@ -37,12 +37,12 @@ async def create_charityproject(
     session: AsyncSession = Depends(get_async_session)
 ):
     await check_unique_name_project(create_schema, session)
-    charityproject = await charityproject_crud.create(
+    charity_project = await charity_project_crud.create(
         create_schema, session
     )
     await investing(session)
-    await session.refresh(charityproject)
-    return charityproject
+    await session.refresh(charity_project)
+    return charity_project
 
 
 @router.patch(
@@ -55,17 +55,17 @@ async def update_charityproject(
     update_schema: CharityProjectUpdate,
     session: AsyncSession = Depends(get_async_session)
 ):
-    charityproject = await check_exists_object(
-        project_id, charityproject_crud, session)
+    charity_project = await check_exists_object(
+        project_id, charity_project_crud, session)
     await check_unique_name_project(
         update_schema,
         session,
-        charityproject.id)
-    await check_project_before_edit(charityproject, update_schema)
-    charityproject = await charityproject_crud.update(
-        charityproject, update_schema, session
+        charity_project.id)
+    await check_project_before_edit(charity_project, update_schema)
+    charity_project = await charity_project_crud.update(
+        charity_project, update_schema, session
     )
-    return charityproject
+    return charity_project
 
 
 @router.delete(
@@ -77,9 +77,9 @@ async def remove_charityproject(
     project_id: int,
     session: AsyncSession = Depends(get_async_session)
 ):
-    charityproject = await check_exists_object(
-        project_id, charityproject_crud, session)
-    await check_project_before_remove(charityproject)
-    charityproject = await charityproject_crud.remove(
-        charityproject, session)
-    return charityproject
+    charity_project = await check_exists_object(
+        project_id, charity_project_crud, session)
+    await check_project_before_remove(charity_project)
+    charity_project = await charity_project_crud.remove(
+        charity_project, session)
+    return charity_project
