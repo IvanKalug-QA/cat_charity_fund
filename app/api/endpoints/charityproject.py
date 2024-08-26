@@ -23,8 +23,7 @@ router = APIRouter()
     response_model=list[CharityProjectDB])
 async def get_all_charityprojects(
         session: AsyncSession = Depends(get_async_session)):
-    charity_projects = await charity_project_crud.get_multi(session)
-    return charity_projects
+    return await charity_project_crud.get_multi(session)
 
 
 @router.post(
